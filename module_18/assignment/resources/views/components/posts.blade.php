@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,20 +19,16 @@
           </tr>
         </thead>
         <tbody>
+
             @foreach ( $posts as $post )
             <tr>
 
-                <td> {{ $post->name}}</td>
-                <td>{{ $post->categories['name']}}</td>
-                <td> {{ $post->category_id }}</td>
+                <td> {{$post->name}}</td>
+                <td>{{$post->categories['name']}}</td>
+                <td> {{$post->category_id}}</td>
             </tr>
           @endforeach
         </tbody>
       </table>
 </body>
 </html>
-
-
-
-
-
