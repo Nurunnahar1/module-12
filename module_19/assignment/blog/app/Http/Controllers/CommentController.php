@@ -12,12 +12,15 @@ class CommentController extends Controller
     }
 
 
-   function comment(Request $request){
-        Comment::create([
-            'post_id'=>$request->post_id,
-            'content'=>$request->content,
-        ]);
-        return redirect()->back();
-        // return $request;
+    function comment( Request $request ) {
+      $comments =   Comment::create( [
+            'post_id' => $request->post_id,
+            'name'    => $request->name,
+
+            'content' => $request->comment,
+
+        ] );
+        return response()->json( ['status' => 'success'], 201 );
     }
+   
 }
