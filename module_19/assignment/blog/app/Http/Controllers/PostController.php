@@ -4,16 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-    public function index(){
-        $posts = Post::all();
-        return view('components.posts',compact('posts'));
-    }
-    public function postDetails(Request $request){
+    function page(){
+        return view('pages.post');
 
-        $post = Post::find($request->id);
-        return view('components.post_details',compact('post'));
     }
+   function show_post(Request $request){
+        return $post= Post::all();
+        // return DB::table('posts')->get();
+
+
+   }
+   function postdetail(Request $request){
+
+      $posts = Post::find($request->id);
+      return view('pages.postDetail',compact('posts'));
+   }
 }

@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    function comment(Request $request){
+    function page(){
+        return view('pages.postDetail');
+    }
+
+
+   function comment(Request $request){
         Comment::create([
             'post_id'=>$request->post_id,
             'content'=>$request->content,

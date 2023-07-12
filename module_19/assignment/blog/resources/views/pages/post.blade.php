@@ -1,7 +1,5 @@
- 
 @extends('app')
 @section('content')
-@include('components.posts')
-
+@include('components.post_page')
 
 @endsection
