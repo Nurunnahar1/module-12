@@ -1,4 +1,4 @@
-@foreach ($categories as $category)
+@foreach ($categories as $key=>$category)
     <div class="category">
         <h2 class="category-title">{{ $category->name }}</h2>
         @if ($category->latestPost)

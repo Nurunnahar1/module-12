@@ -48,7 +48,7 @@ Route::get('/latestPost', function () {
 //=======answer to the question no 12===========
 Route::get('/latestPosts', function () {
     $categories = Category::with('posts')->latest()->orderBy('created_at')->first();
-    return view('components.latest_posts', ['categories' => $categories]);
+    return view('components.latest_posts',compact('categories'));
     
 
 });

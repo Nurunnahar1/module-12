@@ -55,7 +55,7 @@ class PostController extends Controller
         {
 
             $posts = Post::with('categories')->get();
-            return view('components.posts',['posts' => $posts]);
+            return view('components.posts',compact('posts'));
         }
 
 
