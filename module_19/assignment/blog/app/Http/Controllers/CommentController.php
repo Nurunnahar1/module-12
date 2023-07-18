@@ -13,14 +13,9 @@ class CommentController extends Controller
 
 
     function comment( Request $request ) {
-      $comments =   Comment::create( [
-            'post_id' => $request->post_id,
-            'name'    => $request->name,
 
-            'content' => $request->comment,
+        return view('pages.postDetail');
 
-        ] );
-        return response()->json( ['status' => 'success'], 201 );
     }
-   
+
 }
