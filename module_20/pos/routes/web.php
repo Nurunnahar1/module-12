@@ -23,3 +23,4 @@ Route::get('/verifyOtp',[UserController::class,'VerifyOTPPage']);
 Route::get('/resetPassword',[UserController::class,'ResetPasswordPage']);
 
 Route::get('/dashboard',[DashboardController::class,'DashboardPage']);
+
