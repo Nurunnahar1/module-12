@@ -1,4 +1,4 @@
 @extends('layout.sidenav-layout')
 @section('content')
-    @include('components.dashboard.profile-form')
+    @include('components.email.SendPromotionalPage')
 @endsection

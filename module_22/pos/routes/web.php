@@ -1,72 +1,51 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Middleware\TokenVerifyTokenMiddleware;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\TokenVerificationMiddleware;
+use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
-
+// auth
 Route::post('/user-registration',[UserController::class,'UserRegistration']);
 Route::post('/user-login',[UserController::class,'UserLogin']);
 Route::post('/send-otp',[UserController::class,'SendOTPCode']);
 Route::post('/verify-otp',[UserController::class,'VerifyOTP']);
-Route::post('/reset-password',[UserController::class,'ResetPassword'])->middleware([TokenVerifyTokenMiddleware::class]);
-//user profile method
-Route::get('/user-profile',[UserController::class,'UserProfile'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post('/user-update',[UserController::class,'UpdateProfile'])->middleware([TokenVerifyTokenMiddleware::class]);
+Route::post('/reset-password',[UserController::class,'ResetPassword'])->middleware([TokenVerificationMiddleware::class]);
 
-// Page Routes
+Route::get('/userLogout',[UserController::class,'UserLogout']);
+
+
+// pages route
 Route::get('/userLogin',[UserController::class,'LoginPage']);
 Route::get('/userRegistration',[UserController::class,'RegistrationPage']);
 Route::get('/sendOtp',[UserController::class,'SendOtpPage']);
 Route::get('/verifyOtp',[UserController::class,'VerifyOTPPage']);
-Route::get('/resetPassword',[UserController::class,'ResetPasswordPage']);
-Route::get('/categoryPage',[CategoryController::class,'CategoryPage'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::get('/customerPage',[CustomerController::class,'CustomerPage'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::get('/dashboard',[DashboardController::class,'DashboardPage'])->middleware([TokenVerifyTokenMiddleware::class]);
-//user profile page
-Route::get('/userProfile',[UserController::class,'ProfilePage'])->middleware([TokenVerifyTokenMiddleware::class])->name('user.Profile');
+Route::get('/resetPassword',[UserController::class,'ResetPasswordPage'])->middleware([TokenVerificationMiddleware::class]);
+Route::get('/dashboard',[UserController::class,'DashboardPage'])->middleware([TokenVerificationMiddleware::class]);
 
-// User Logout
-Route::get('/logout',[UserController::class,'UserLogout']);
+// customer route
+Route::get('/customerPage',[CustomerController::class,'CustomerPage'])->middleware([TokenVerificationMiddleware::class]);
+Route::get('/getCustomer',[CustomerController::class,'GetCustomer'])->middleware([TokenVerificationMiddleware::class]);
+Route::post('/create-customer',[CustomerController::class,'CreateCustomer'])->middleware([TokenVerificationMiddleware::class]);
+Route::put('/update-customer',[CustomerController::class,'UpdateCustomer'])->middleware([TokenVerificationMiddleware::class]);
+Route::post('/delete-customer',[CustomerController::class,'DeleteCustomer'])->middleware([TokenVerificationMiddleware::class]);
+Route::post('/customer-by-id',[CustomerController::class,'CustomerById'])->middleware([TokenVerificationMiddleware::class]);
 
-
-
-
-// Category API
-Route::post("/create-category",[CategoryController::class,'CategoryCreate'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::get("/list-category",[CategoryController::class,'CategoryList'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post("/delete-category",[CategoryController::class,'CategoryDelete'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post("/update-category",[CategoryController::class,'CategoryUpdate'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post("/category-by-id",[CategoryController::class,'CategoryByID'])->middleware([TokenVerifyTokenMiddleware::class]);
-
-
-// Customer API
-Route::post("/create-customer",[CustomerController::class,'CustomerCreate'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::get("/list-customer",[CustomerController::class,'CustomerList'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post("/delete-customer",[CustomerController::class,'CustomerDelete'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post("/update-customer",[CustomerController::class,'CustomerUpdate'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post("/customer-by-id",[CustomerController::class,'CustomerByID'])->middleware([TokenVerifyTokenMiddleware::class]);
-
-
-// Product API
-Route::post("/create-product",[ProductController::class,'CreateProduct'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post("/delete-product",[ProductController::class,'DeleteProduct'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::post("/update-product",[ProductController::class,'UpdateProduct'])->middleware([TokenVerifyTokenMiddleware::class]);
-Route::get("/list-product",[ProductController::class,'ProductList'])->middleware([TokenVerifyTokenMiddleware::class]);
-
-
-
-
-
-
-
-
-
-
-
-
+//send promotional email
+Route::post('/send-pmail',[UserController::class,'SendPromotionalMail']);
+Route::get('/send-promotionalMail-page',[UserController::class,'SendMailPage'])->middleware([TokenVerificationMiddleware::class]);
