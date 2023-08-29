@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\ManagerController;
+use App\Http\Middleware\TokenVerificationMiddleware;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,33 +18,42 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('page.loginPage');
 });
 
-Route::get('/dashboard', function () {
-    return view('admin.index');
-})
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::controller(ManagerController::class)->group(function (){
+    Route::post('/restration-manager','managerRegistration');
+    Route::post('/login','Login');
+    Route::get('/logout','Logout');
+    Route::get('/manager_employe_list', 'employeeLeavesList')->middleware(TokenVerificationMiddleware::class);
+    Route::post('/manager_employe_listBy-id', 'employeeLeavesListById')->middleware(TokenVerificationMiddleware::class);
+  
 
-Route::controller(AdminController::class)->group(function () {
-    Route::get('/admin/logout', 'destroy')->name('admin.logout');
-    Route::get('/admin/profile', 'profile')->name('admin.profile');
-    Route::get('/admin/edit', 'editProfile')->name('admin.edit');
-    Route::post('/admin/store', 'storeProfile')->name('store.profile');
-    Route::get('/admin/changePassword', 'changePassword')->name('change.password');
-   Route::post('/admin/updatePassword', 'updatePassword')->name('update.password');
-
+     //page route
+     Route::get('/managerDashboard','managerDashPage')->middleware(TokenVerificationMiddleware::class);
+     Route::get('/manager-reg-page','managerRegistrationPage');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::controller(EmployeeController::class)->group(function (){
+    Route::post('/restration-employee','employeeRegistration');
+    Route::get('/total-employee','TotalEmployee')->middleware(TokenVerificationMiddleware::class);
+
+
+    //page route
+    Route::get('/employeeDashboard','employeeDashPage')->middleware(TokenVerificationMiddleware::class);
+    Route::get('/emp-reg-page','EmpRegPage');
 });
 
-Route::middleware('auth')->group(function(){
-    Route::resource('events',EventController::class);
+Route::controller(LeaveController::class)->group(function (){
+     
+    Route::get('/get-leave-list','GetList')->middleware(TokenVerificationMiddleware::class);
+    Route::post('/create-leave','CreateLeave')->middleware(TokenVerificationMiddleware::class);
+    Route::post('/updte-leave-status','updateStatus')->middleware(TokenVerificationMiddleware::class);
+
+    Route::get('/total-leaveApplication','TotalLeaveApplication')->middleware(TokenVerificationMiddleware::class);
+    Route::get('/total-pending-by-emp','TotalPendingbyEmloyee')->middleware(TokenVerificationMiddleware::class);
+    Route::get('/total-pending','TotalPending')->middleware(TokenVerificationMiddleware::class);
 });
 
-require __DIR__ . '/auth.php';
+
+
